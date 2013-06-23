@@ -1,0 +1,37 @@
+---
+- name: Install epel repo
+  shell: sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+  register: epel_repo_install_result
+  ignore_errors: True
+  tags:
+    - common-install
+
+- name: Refresh yum
+  command: sudo yum -y update
+  ignore_errors: True
+  when: epel_repo_install_result|success
+  tags:
+    - common-install
+
+
+- name: Install required yum packages
+  sudo: True
+  yum: name={{ item }} enablerepo=epel state=present
+  with_items:
+    - python-devel.x86_64
+    - pycairo.x86_64
+    - python-zope-interface.x86_64
+    - fontconfig.x86_64
+    - fontconfig-devel.x86_64
+    - mod_wsgi.x86_64
+    - python-pip.noarch
+    - python-virtualenv.noarch
+  tags:
+    - common-install
+
+
+- name: Install httpd
+  yum: name=httpd state=present
+  tags:
+    - common-install
+

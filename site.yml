@@ -1,0 +1,23 @@
+---
+#- name: Setup common software for machine supporting Graphite
+#  hosts: graphiteservers
+#  roles:
+#    - { role: common, target: setup }
+#    - { role: common, target: start }
+#  tags:
+#    - common
+
+- name: Setup common software for machine supporting Graphite
+  hosts: graphiteservers
+  roles:
+    - { role: common }
+  tags:
+    - common
+
+- name: Setup Graphite modules and config files
+  hosts: graphiteservers
+  roles: 
+    - { role: graphite }
+  tags:
+    - graphite
+

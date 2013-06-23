@@ -1,0 +1,4 @@
+---
+- name: Start carbon as a service
+  sudo: True
+  service: name=carbon state=started enabled=yes

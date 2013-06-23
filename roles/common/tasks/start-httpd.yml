@@ -1,0 +1,6 @@
+---
+- name: Start httpd
+  sudo: True
+  service: name=httpd state=started enabled=yes
+  tags:
+    - common-start

@@ -1,0 +1,7 @@
+---
+username: "{{ user }}"
+tzname: "Europe/Madrid"
+vpath: /opt/graphite # Virtual environment path for installing python packages
+python_vpath: "{{ vpath }}/lib/python2.6/site-packages"
+graphitedb: "{{ vpath }}/storage/graphite.db"
+apache_conf_dir: /etc/httpd/conf

@@ -1,0 +1,7 @@
+---
+- name: Stop carbon as a service
+  sudo: True
+  service: name=carbon state=stopped
+  ignore_errors: True
+  tags:
+    - graphite-install

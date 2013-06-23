@@ -1,0 +1,6 @@
+---
+- name: Stop graphite service
+  hosts: graphiteservers
+  tasks:
+    - include: roles/graphite/tasks/stop.yml
+

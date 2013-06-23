@@ -1,0 +1,8 @@
+---
+- include: stop.yml
+
+- name: Clean graphite virtual directory
+  sudo: True
+  file: path={{ vpath }} state=absent
+  tags:
+    - graphite-install

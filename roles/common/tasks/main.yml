@@ -1,0 +1,26 @@
+--- 
+
+#- include: kill.yml
+#  when: target == 'setup'#
+
+#- include: clean.yml
+#  when: target == 'setup'#
+
+#- include: install.yml
+#  when: target == 'setup'#
+
+#- include: setup.yml
+#  when: target == 'setup'#
+
+#- include: start-httpd.yml
+#  when: target == 'start'
+
+- include: kill.yml
+
+- include: clean.yml
+
+- include: install.yml
+
+- include: setup.yml
+
+- include: start-httpd.yml

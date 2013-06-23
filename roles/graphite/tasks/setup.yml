@@ -1,0 +1,57 @@
+---
+- name: Include system-site-packages in virtualenv
+  shell: virtualenv --system-site-packages {{ vpath }}
+  ignore_errors: True
+  tags:
+    - graphite-setup
+
+- name: Copy carbon configuration files
+  template: src={{ item }}.j2 dest={{ vpath }}/conf/{{ item }}
+  with_items:
+    - carbon.conf
+    - storage-schemas.conf
+    - graphTemplates.conf
+    - graphite.wsgi
+  tags:
+    - graphite-setup
+
+- name: Copy local settings for carbon webapp
+  template: src=local_settings.py.j2 dest={{ vpath }}/webapp/graphite/local_settings.py
+  tags:
+    - graphite-setup
+
+- name: Setup graphite database
+  shell: chdir={{ vpath }}/webapp/graphite {{ vpath }}/bin/python manage.py syncdb --noinput creates={{ graphitedb }}
+  tags:
+    - graphite-setup
+
+- name: Set ownership of all files to $username:apache
+  sudo: True
+  command: chown -R {{ username }}:apache {{ vpath }}
+  tags:
+    - graphite-setup
+
+- name: Set mode to 775 in graphite dir
+  sudo: True
+  command: chmod -R 775 {{ vpath }}
+  tags:
+    - graphite-setup
+
+- name: Copy carbon to init.d
+  sudo: True
+  template: src=carbon.j2 dest=/etc/init.d/carbon mode=755
+  tags:
+    - graphite-setup
+
+- name: Offer carbon as a service
+  sudo: True
+  shell: /sbin/chkconfig --add carbon
+  tags:
+    - graphite-setup
+
+- name: Add apache conf containing a virtual host
+  sudo: True
+  template: src=httpd.conf.j2 dest={{ apache_conf_dir }}/httpd.conf mode=644
+  notify: Restart httpd
+  tags:
+    - graphite-setup

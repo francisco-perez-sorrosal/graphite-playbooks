@@ -1,0 +1,13 @@
+--- 
+
+- include: kill.yml
+
+- include: clean.yml
+
+- include: install.yml
+
+- include: setup.yml
+
+- include: start.yml
+
+

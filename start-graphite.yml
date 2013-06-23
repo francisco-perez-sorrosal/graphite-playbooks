@@ -1,0 +1,5 @@
+---
+- name: Start graphite service
+  hosts: graphiteservers
+  tasks:
+    - include: roles/graphite/tasks/start.yml

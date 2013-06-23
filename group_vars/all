@@ -1,0 +1,3 @@
+---
+# Remote user. Use --extra-vars "remote_user=XXX" when invoking ansible-playbook
+user: "{{ remote_user }}"
